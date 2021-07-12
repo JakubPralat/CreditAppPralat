@@ -4,9 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import pralat.inteca.creditservice.models.Credit;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Component
@@ -29,5 +33,19 @@ public class CreditDAO {
     public List<Credit> list() {
         String sql = "SELECT id, creditName from credit";
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public Integer createCredit(Credit credit){
+        String sql = "insert into credit(creditName) values(?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, credit.getCreditName());
+            return preparedStatement;
+        }, keyHolder);
+
+        return keyHolder.getKey().intValue();
     }
 }

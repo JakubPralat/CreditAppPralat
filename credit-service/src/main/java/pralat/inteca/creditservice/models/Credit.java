@@ -7,8 +7,7 @@ public class Credit {
     public Credit() {
     }
 
-    public Credit(Integer id, String creditName) {
-        this.id = id;
+    public Credit(String creditName) {
         this.creditName = creditName;
     }
 
