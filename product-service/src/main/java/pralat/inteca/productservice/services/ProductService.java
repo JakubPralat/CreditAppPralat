@@ -16,4 +16,8 @@ public class ProductService {
     public List<Product> getAllProducts(){
         return productDAO.list();
     }
+
+    public void createProduct(Product product){
+        productDAO.createProduct(product);
+    }
 }

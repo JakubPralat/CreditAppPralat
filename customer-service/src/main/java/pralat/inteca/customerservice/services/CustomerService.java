@@ -16,4 +16,8 @@ public class CustomerService {
     public List<Customer> getAllCustomers(){
         return customerDAO.list();
     }
+
+    public  void createCustomer(Customer customer){
+        customerDAO.createCustomer(customer);
+    }
 }

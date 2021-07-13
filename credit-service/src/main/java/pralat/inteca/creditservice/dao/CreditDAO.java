@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import pralat.inteca.creditservice.dto.CreditDTO;
 import pralat.inteca.creditservice.models.Credit;
 
 import java.sql.PreparedStatement;
@@ -35,14 +36,14 @@ public class CreditDAO {
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    public Integer createCredit(Credit credit){
+    public Integer createCredit(CreditDTO creditDTO){
         String sql = "insert into credit(creditName) values(?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.
                     prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, credit.getCreditName());
+            preparedStatement.setString(1, creditDTO.getCreditName());
             return preparedStatement;
         }, keyHolder);
 

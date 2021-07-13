@@ -23,7 +23,7 @@ public class CreditController {
 
     @PostMapping
     @RequestMapping(path = "/create")
-    public Integer createCredit(@RequestBody Credit credit){
-        return creditService.createCredit(credit);
+    public Integer createCredit(@RequestBody CreditDTO creditDTO){
+        return creditService.createCredit(creditDTO);
     }
 }

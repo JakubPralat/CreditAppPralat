@@ -10,8 +10,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, Integer creditId, String firstName, String surname, String pesel) {
-        this.id = id;
+    public Customer(Integer creditId, String firstName, String surname, String pesel) {
         this.creditId = creditId;
         this.firstName = firstName;
         this.surname = surname;

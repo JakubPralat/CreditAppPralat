@@ -1,9 +1,7 @@
 package pralat.inteca.productservice.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pralat.inteca.productservice.dao.ProductDAO;
 import pralat.inteca.productservice.models.CreditProduct;
 import pralat.inteca.productservice.models.Product;
@@ -23,5 +21,11 @@ public class ProductController {
         CreditProduct creditProduct = new CreditProduct();
         creditProduct.setCreditProduct(productService.getAllProducts());
         return creditProduct;
+    }
+
+    @PostMapping
+    @RequestMapping(path = "/create")
+    public void createProduct(@RequestBody Product product){
+        productService.createProduct(product);
     }
 }

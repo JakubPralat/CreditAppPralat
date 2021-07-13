@@ -33,4 +33,9 @@ public class CustomerDAO {
         String sql = "SELECT id, creditId, firstName, surname, pesel from customer";
         return jdbcTemplate.query(sql, rowMapper);
     }
+
+    public void createCustomer(Customer customer){
+        String sql = "insert into customer(creditId, firstName, surname, pesel) values(?,?,?,?)";
+        Integer insert = jdbcTemplate.update(sql, customer.getCreditId(), customer.getFirstName(), customer.getSurname(), customer.getPesel());
+    }
 }

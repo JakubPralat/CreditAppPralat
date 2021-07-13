@@ -1,13 +1,15 @@
 package pralat.inteca.creditservice.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pralat.inteca.creditservice.dao.CreditDAO;
 import pralat.inteca.creditservice.dto.CreditDTO;
-import pralat.inteca.creditservice.models.Credit;
-import pralat.inteca.creditservice.models.CreditCustomer;
-import pralat.inteca.creditservice.models.CreditProduct;
+import pralat.inteca.creditservice.models.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +45,18 @@ public class CreditService {
                 credit.getCreditName())).collect(Collectors.toList());
     }
 
-    public Integer createCredit(Credit credit){
-        return creditDAO.createCredit(credit);
+    public Integer createCredit(CreditDTO creditDTO){
+        Integer creditNumber = creditDAO.createCredit(creditDTO);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        //post product
+        ResponseEntity<String> result = restTemplate.postForEntity("http://localhost:8082/product/create", new Product(creditNumber, creditDTO.getProductName(), creditDTO.getValue()), String.class);
+
+        //post customer
+        result = restTemplate.postForEntity("http://localhost:8081/customer/create", new Customer(creditNumber, creditDTO.getFirstName(), creditDTO.getSurname(), creditDTO.getPesel()), String.class);
+
+        return creditNumber;
     }
 }

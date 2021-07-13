@@ -32,4 +32,9 @@ public class ProductDAO {
         String sql = "SELECT id, creditId, name, value from product";
         return jdbcTemplate.query(sql, rowMapper);
     }
+
+    public void createProduct(Product product){
+        String sql = "insert into product(creditId, name, value) values(?,?,?)";
+        Integer insert = jdbcTemplate.update(sql, product.getCreditId(), product.getName(), product.getValue());
+    }
 }
