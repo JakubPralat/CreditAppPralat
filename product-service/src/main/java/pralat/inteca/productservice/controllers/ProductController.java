@@ -17,7 +17,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public CreditProduct getProduct(){
+    public CreditProduct getAllProducts(){
         CreditProduct creditProduct = new CreditProduct();
         creditProduct.setCreditProduct(productService.getAllProducts());
         return creditProduct;

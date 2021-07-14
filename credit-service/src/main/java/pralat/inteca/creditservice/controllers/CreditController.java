@@ -6,6 +6,7 @@ import pralat.inteca.creditservice.dto.CreditDTO;
 import pralat.inteca.creditservice.models.*;
 import pralat.inteca.creditservice.services.CreditService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

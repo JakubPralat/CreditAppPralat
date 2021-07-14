@@ -17,7 +17,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    public CreditCustomer getCustomer(){
+    public CreditCustomer getAllCustomers(){
         CreditCustomer creditCustomer = new CreditCustomer();
         creditCustomer.setCreditCustomer(customerService.getAllCustomers());
         return creditCustomer;

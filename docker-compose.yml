@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+    credit:
+        build: 
+            context: credit-service
+            dockerfile: Dockerfile
+        ports:
+          - 8080:8080
+        restart: always
+        depends_on:
+            - mysqldb
+        environment:
+          SPRING_DATASOURCE_USERNAME: user
+          SPRING_DATASOURCE_PASSWORD: haslo
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/mydb
+    customer:
+        build: 
+            context: customer-service
+            dockerfile: Dockerfile
+        ports:
+          - 8081:8081
+        restart: always
+        depends_on:
+            - mysqldb
+        environment:
+          SPRING_DATASOURCE_USERNAME: user
+          SPRING_DATASOURCE_PASSWORD: haslo
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/mydb
+    product:
+        build: 
+            context: product-service
+            dockerfile: Dockerfile
+        ports:
+          - 8082:8082
+        restart: always
+        depends_on:
+          - mysqldb
+        environment:
+          SPRING_DATASOURCE_USERNAME: user
+          SPRING_DATASOURCE_PASSWORD: haslo
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/mydb
+    mysqldb:
+        image: mysql:8
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment: 
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: mydb
+            MYSQL_USER: user
+            MYSQL_PASSWORD: haslo
+        
+        volumes:
+          - ./database/data:/var/lib/mysql 
+          - ./database/init:/docker-entrypoint-initdb.d
+    
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        links:
+          - mysqldb
+        ports:
+          - 8083:80
+        environment:
+            MYSQL_USERNAME: user
+            MYSQL_ROOT_PASSWORD: root
+            PMA_HOST: mysqldb

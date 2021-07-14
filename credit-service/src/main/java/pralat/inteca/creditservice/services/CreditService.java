@@ -30,10 +30,10 @@ public class CreditService {
         List<Credit> credits = creditDAO.list();
 
         //get customers
-        CreditCustomer customers = restTemplate.getForObject("http://localhost:8081/customer", CreditCustomer.class);
+        CreditCustomer customers = restTemplate.getForObject("http://customer:8081/customer", CreditCustomer.class);
 
         //get products
-        CreditProduct products = restTemplate.getForObject("http://localhost:8082/product", CreditProduct.class);
+        CreditProduct products = restTemplate.getForObject("http://product:8082/product", CreditProduct.class);
 
         //put everything together and return list
         return credits.stream().map(credit -> new CreditDTO(
@@ -48,14 +48,11 @@ public class CreditService {
     public Integer createCredit(CreditDTO creditDTO){
         Integer creditNumber = creditDAO.createCredit(creditDTO);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
         //post product
-        ResponseEntity<String> result = restTemplate.postForEntity("http://localhost:8082/product/create", new Product(creditNumber, creditDTO.getProductName(), creditDTO.getValue()), String.class);
+        ResponseEntity<String> result = restTemplate.postForEntity("http://product:8082/product/create", new Product(creditNumber, creditDTO.getProductName(), creditDTO.getValue()), String.class);
 
         //post customer
-        result = restTemplate.postForEntity("http://localhost:8081/customer/create", new Customer(creditNumber, creditDTO.getFirstName(), creditDTO.getSurname(), creditDTO.getPesel()), String.class);
+        result = restTemplate.postForEntity("http://customer:8081/customer/create", new Customer(creditNumber, creditDTO.getFirstName(), creditDTO.getSurname(), creditDTO.getPesel()), String.class);
 
         return creditNumber;
     }
