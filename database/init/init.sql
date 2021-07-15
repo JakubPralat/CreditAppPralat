@@ -7,7 +7,7 @@ CREATE TABLE credit (
   PRIMARY KEY (id));
 
 INSERT INTO credit(id, creditName) VALUES
-(1,"A");
+(1,"Loan short term");
 
 CREATE TABLE customer (
   id INT NOT NULL AUTO_INCREMENT,
@@ -28,4 +28,4 @@ CREATE TABLE product (
   PRIMARY KEY (id));
 
 INSERT INTO product(id, creditID, name, value) VALUES
-(1,1,"car",69);
+(1,1,"car",30000);
